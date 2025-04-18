@@ -6,9 +6,28 @@ import pandas as pd
 from datetime import datetime
 from playwright.async_api import async_playwright
 from mcp.server.fastmcp import FastMCP
+from fastapi import FastAPI, Response
+from fastapi.middleware.cors import CORSMiddleware
 
 # 初始化 FastMCP 服务器
 mcp = FastMCP("xiaohongshu_scraper")
+
+# 获取FastAPI应用实例
+app = mcp.app
+
+# 添加CORS中间件
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# 添加健康检查端点
+@app.get("/health")
+async def health_check():
+    return {"status": "ok"}
 
 # 全局变量
 BROWSER_DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "browser_data")

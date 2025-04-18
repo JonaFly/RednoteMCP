@@ -1,0 +1,47 @@
+version: 1
+name: xiaohongshu-mcp
+description: 小红书MCP自动化工具
+
+build:
+  type: docker
+  dockerfile: Dockerfile
+
+deploy:
+  type: service
+  port: 8000
+  resources:
+    cpu: 1
+    memory: 2Gi
+    gpu: false
+  environment:
+    - name: PYTHONUNBUFFERED
+      value: "1"
+  
+  # 持久存储配置
+  volumes:
+    - name: browser-data
+      mountPath: /app/browser_data
+      size: 1Gi
+    - name: app-data
+      mountPath: /app/data
+      size: 5Gi
+
+  # 健康检查
+  healthCheck:
+    type: http
+    path: /health
+    port: 8000
+    initialDelaySeconds: 30
+    periodSeconds: 30
+    timeoutSeconds: 5
+    failureThreshold: 3
+    successThreshold: 1
+
+  # 自动扩缩容配置（可选）
+  scaling:
+    minReplicas: 1
+    maxReplicas: 1
+
+  # 允许使用浏览器
+  capabilities:
+    browser: true 
