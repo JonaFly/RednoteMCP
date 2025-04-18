@@ -9,6 +9,7 @@ build:
 deploy:
   type: service
   port: 8000
+  startCommand: "python xiaohongshu_mcp.py"
   resources:
     cpu: 1
     memory: 2Gi
