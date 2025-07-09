@@ -1,0 +1,9 @@
+ECHO 处于打开状态。
+RednoteMCP/*
+
+!RednoteMCP/client-config.json
+!RednoteMCP/Dockerfile
+!RednoteMCP/requirements.txt
+!RednoteMCP/run_tool.py
+!RednoteMCP/test.py
+!RednoteMCP/xiaohongshu_mcp.py
